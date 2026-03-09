@@ -1,0 +1,31 @@
+name: Build Jarvis APK
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+    - name: Unzip Project
+      run: unzip AI_Jarvis_Beyond_UltraPro_Complete.zip -d project
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+    - name: Give Permission
+      run: chmod +x project/android/gradlew
+    - name: Build Debug APK
+      run: |
+        cd project/android
+        ./gradlew assembleDebug
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: Jarvis-APK
+        path: project/android/app/build/outputs/apk/debug/*.apk
