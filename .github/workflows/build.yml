@@ -11,6 +11,25 @@ jobs:
       uses: actions/checkout@v3
     - name: Unzip Project
       run: unzip AI_Jarvis_Beyond_UltraPro_Complete.zip -d project
+    - name: Fix settings.gradle.kts
+      run: |
+        cat > project/android/settings.gradle.kts << 'EOF'
+        pluginManagement {
+            repositories {
+                google()
+                mavenCentral()
+                gradlePluginPortal()
+            }
+        }
+        dependencyResolutionManagement {
+            repositories {
+                google()
+                mavenCentral()
+            }
+        }
+        rootProject.name = "jarvis"
+        include(":app")
+        EOF
     - name: Setup Java
       uses: actions/setup-java@v3
       with:
@@ -18,10 +37,6 @@ jobs:
         distribution: 'temurin'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
-    - name: Install Gradle Wrapper
-      run: |
-        cd project/android
-        gradle wrapper --gradle-version 8.4
     - name: Give Permission
       run: chmod +x project/android/gradlew
     - name: Build Debug APK
