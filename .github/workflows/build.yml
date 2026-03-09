@@ -18,6 +18,10 @@ jobs:
         distribution: 'temurin'
     - name: Setup Android SDK
       uses: android-actions/setup-android@v3
+    - name: Install Gradle Wrapper
+      run: |
+        cd project/android
+        gradle wrapper --gradle-version 8.4
     - name: Give Permission
       run: chmod +x project/android/gradlew
     - name: Build Debug APK
