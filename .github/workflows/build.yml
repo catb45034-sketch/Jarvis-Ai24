@@ -21,7 +21,7 @@ jobs:
 
     - name: Setup Android SDK
   uses: android-actions/setup-android@v3
-  with:
+with:
     cmdline-tools-version: 11076708  # Fixed version, download nahi karega
     accept-android-sdk-licenses: true 
 
